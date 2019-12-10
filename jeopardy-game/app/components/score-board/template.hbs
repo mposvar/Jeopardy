@@ -1,0 +1,6 @@
+{{#each gameState.teams as |team|}}
+    <div class="_column">
+        <div class="_team-name">{{team.name}}</div>
+        <div class="_money">${{team.points}}</div>
+    </div>
+{{/each}}

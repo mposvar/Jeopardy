@@ -1,0 +1,78 @@
+{{#if this.model.isSaving}}
+    <div class="overlay-view">Saving...</div>
+{{/if}}
+<div class="container-view">
+    <div class="header-view">
+        <button class="button _warning _small" {{action 'resetGame'}}>Reset</button>
+        <div class="_title">{{this.model.game.title}}</div>
+        <div class="_view-toggle button-group">
+            <button class="button _secondary _small {{unless this.model.isScoreView "_highlighted"}}" onclick={{action "setIsScoreboard" false}}>Game Board</button>
+            <button class="button _secondary _small {{if this.model.isScoreView "_highlighted"}}" onclick={{action "setIsScoreboard" true}}>Score Board</button>
+        </div>
+    </div>
+    <div class="main-view">
+        <div class="board-view">
+            {{#if this.model.isScoreView}}
+                <ScoreBoard @gameState={{this.model}} />
+            {{else}}
+                <GameBoard 
+                    @gameState={{this.model}} 
+                    @hasActions={{true}} 
+                    @onSelectCategory={{action "selectCategory"}}
+                    @onSelectAnswer={{action "selectAnswer"}}
+                />
+            {{/if}}
+        </div>
+        
+        <div class="details-view">
+            <div class="_inner">
+                {{#if selectedItem.isAnswer}}
+                    <div class="_centered-title">{{selectedItem.category.title}}</div>
+                    <div class="_centered-title">${{selectedItem.price}}</div>
+
+                    <div class="_solution">
+                        <div><strong>Solution:</strong></div>
+                        <div class="_text">{{selectedItem.questionText}}</div>
+                    </div>
+                    
+                    <div class="_actions">
+                        {{#if (contains selectedItem this.model.completedAnswers)}}
+                            <button class="button _warning" {{action "unfinishAnswer" selectedItem}}>Reactivate Puzzle Square</button>
+                        {{else}}
+                            {{#each this.model.teams as |team|}}
+                                <div class="team-actions">
+                                    <div class="_name">{{team.name}}</div>
+                                    <div class="button-group">
+                                        <button class="button _primary _small" {{action "finishAnswer" team selectedItem}}>+ Award Points</button>
+                                        <button class="button _warning _small" {{action "removePoints" team selectedItem}}>- Penalize Points</button>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        {{/if}}
+
+                        {{#if (eq selectedItem this.model.activeAnswer)}}
+                            <button class="button _secondary" {{action "unselectAnswer"}}>Hide Answer</button>
+                        {{/if}}
+                    </div>
+                {{/if}}
+
+                {{#if selectedItem.isCategory}}
+                    <div class="_centered-title">{{selectedItem.title}}</div>
+                    <div class="_actions">
+                        {{#if (contains selectedItem this.model.displayedCategories)}}
+                            <button class="button _warning" {{action "removeCategory" selectedItem}}>Mask Category</button>
+                        {{/if}}
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+        
+    </div>
+    <div class="sound-view">
+        <div class="button-group">
+            <button class="button {{if this.model.isThemeMusic "_warning" "_primary"}}" {{action "toggleIsThemeMusic"}}>Theme ♫</button>
+            <button class="button {{if this.model.isThinking "_warning" "_primary"}}" {{action "toggleIsThinking"}}>Thinking ♫</button>
+            <button class="button {{if this.model.isTimeUp "_warning" "_primary"}}" {{action "playIsTimeUp"}}>Time's Up ♫</button>
+        </div>
+    </div>
+</div>

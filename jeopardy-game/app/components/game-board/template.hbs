@@ -1,0 +1,55 @@
+
+{{#each this.game.categories as |category|}}
+  <div class="grid-square _header" {{action 'selectCategory' category}}>
+    {{if (contains category this.gameState.displayedCategories)
+      category.title 
+      'Jeopardy!'
+    }}
+  </div>
+{{/each}}
+
+{{#each this.game.answerRows as |answerRow|}}
+
+  {{#each this.game.categories as |category|}}
+    {{#let (find-by "price" answerRow.price category.answers) as |answer|}}
+      <div class="grid-square _body" {{action 'selectAnswer' answer}}>
+        <div class="question {{if (eq this.gameState.activeAnswer answer) "_is-active"}}">
+          {{#if (eq this.gameState.activeAnswer answer)}}
+            {{#if answer.isImage}}
+              <img class="_image" src={{answer.imageFile}} />
+            {{else if answer.isAudio}}
+              {{#unless hasActions}}
+                <iframe src={{answer.audioFile}} allow="autoplay" style="display:none" id="iframeAudio">
+                </iframe> 
+              {{/unless}}
+              <div class="answer-text">{{answer.answerText}}</div>
+            {{else}}
+              <div class="answer-text">{{answer.answerText}}</div>
+            {{/if}}
+          {{/if}}
+        </div>
+
+        {{#if (contains answer this.gameState.completedAnswers)}}
+          <strong>&nbsp;</strong>
+        {{else}}
+          <strong>${{answerRow.price}}</strong>
+        {{/if}}
+      </div>
+    {{/let}}
+  {{/each}}
+{{/each}}
+
+{{#unless hasActions}}
+  {{#if gameState.isTimeUp}}
+      <iframe src="/content/TimesUp.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+      </iframe> 
+  {{else if gameState.isThinking}}
+      <iframe src="/content/ThinkMusic.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+      </iframe> 
+  {{else if gameState.isThemeMusic}}
+      <iframe src="/content/ThemeSong.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+      </iframe> 
+  {{/if}}
+{{/unless}}
+
+

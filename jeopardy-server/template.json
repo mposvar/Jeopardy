@@ -1,0 +1,202 @@
+{
+    "id": 1,
+    "title": "MC's Baby Shower",
+    "categories": [{
+            "id": 1,
+            "title": "Baby Movies",
+            "answers": [{
+                    "id": 1,
+                    "price": 100,
+                    "answerText": "This is 2",
+                    "questionText": "What is 1 + 1?"
+                },
+                {
+                    "id": 2,
+                    "price": 200,
+                    "answerText": "This is 3",
+                    "questionText": "What is 1 + 2?"
+                },
+                {
+                    "id": 3,
+                    "price": 300,
+                    "answerText": "This is 4",
+                    "questionText": "What is 1 + 3?"
+                },
+                {
+                    "id": 4,
+                    "price": 400,
+                    "answerText": "This is 5",
+                    "questionText": "What is 1 + 4?"
+                },
+                {
+                    "id": 5,
+                    "price": 500,
+                    "answerText": "This is 6",
+                    "questionText": "What is 1 + 5?"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Category 2",
+            "answers": [{
+                    "id": 1,
+                    "price": 100,
+                    "answerText": "This is 2",
+                    "questionText": "What is 1 + 1?"
+                },
+                {
+                    "id": 2,
+                    "price": 200,
+                    "answerText": "This is 3",
+                    "questionText": "What is 1 + 2?"
+                },
+                {
+                    "id": 3,
+                    "price": 300,
+                    "answerText": "This is 4",
+                    "questionText": "What is 1 + 3?"
+                },
+                {
+                    "id": 4,
+                    "price": 400,
+                    "answerText": "This is 5",
+                    "questionText": "What is 1 + 4?"
+                },
+                {
+                    "id": 5,
+                    "price": 500,
+                    "answerText": "This is 6",
+                    "questionText": "What is 1 + 5?"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Category 3",
+            "answers": [{
+                    "id": 1,
+                    "price": 100,
+                    "answerText": "This is 2",
+                    "questionText": "What is 1 + 1?"
+                },
+                {
+                    "id": 2,
+                    "price": 200,
+                    "answerText": "This is 3",
+                    "questionText": "What is 1 + 2?"
+                },
+                {
+                    "id": 3,
+                    "price": 300,
+                    "answerText": "This is 4",
+                    "questionText": "What is 1 + 3?"
+                },
+                {
+                    "id": 4,
+                    "price": 400,
+                    "answerText": "This is 5",
+                    "questionText": "What is 1 + 4?"
+                },
+                {
+                    "id": 5,
+                    "price": 500,
+                    "answerText": "This is 6",
+                    "questionText": "What is 1 + 5?"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Category 4",
+            "answers": [{
+                    "id": 1,
+                    "price": 100,
+                    "answerText": "This is 2",
+                    "questionText": "What is 1 + 1?"
+                },
+                {
+                    "id": 2,
+                    "price": 200,
+                    "answerText": "This is 3",
+                    "questionText": "What is 1 + 2?"
+                },
+                {
+                    "id": 3,
+                    "price": 300,
+                    "answerText": "This is 4",
+                    "questionText": "What is 1 + 3?"
+                },
+                {
+                    "id": 4,
+                    "price": 400,
+                    "answerText": "This is 5",
+                    "questionText": "What is 1 + 4?"
+                },
+                {
+                    "id": 5,
+                    "price": 500,
+                    "answerText": "This is 6",
+                    "questionText": "What is 1 + 5?"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Category 5",
+            "answers": [{
+                    "id": 1,
+                    "price": 100,
+                    "answerText": "This is 2",
+                    "questionText": "What is 1 + 1?"
+                },
+                {
+                    "id": 2,
+                    "price": 200,
+                    "answerText": "This is 3",
+                    "questionText": "What is 1 + 2?"
+                },
+                {
+                    "id": 3,
+                    "price": 300,
+                    "answerText": "This is 4",
+                    "questionText": "What is 1 + 3?"
+                },
+                {
+                    "id": 4,
+                    "price": 400,
+                    "answerText": "This is 5",
+                    "questionText": "What is 1 + 4?"
+                },
+                {
+                    "id": 5,
+                    "price": 500,
+                    "answerText": "This is 6",
+                    "questionText": "What is 1 + 5?"
+                }
+            ]
+        }
+    ],
+    "answerRows": [{
+            "id": 1,
+            "price": 100
+        },
+        {
+            "id": 2,
+            "price": 200
+        },
+        {
+            "id": 3,
+            "price": 300
+        },
+        {
+            "id": 4,
+            "price": 400
+        },
+        {
+            "id": 5,
+            "price": 500
+        }
+    ]
+
+}

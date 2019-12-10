@@ -1,0 +1,7 @@
+<div class="board-wrapper">
+    {{#if this.model.isScoreView}}
+        <ScoreBoard @gameState={{this.model}} />
+    {{else}}
+        <GameBoard @gameState={{this.model}} />
+    {{/if}}
+</div>

@@ -14,6 +14,29 @@ body {
     flex-direction: column;
     width: 100%;
     height: 98.85vh;
+    position: relative;
+
+    .audio-message {
+        display: flex;
+        align-items: center;
+        padding: 2rem;
+        font-size: 2rem;
+        background-color: #666;
+        color: white;
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+
+        a {
+            color: white;
+        }
+
+        &._hide {
+            display: none;
+        }
+    }
 }
 
 .game-board-component, .score-board-component {
@@ -202,6 +225,7 @@ body {
 .button {
     padding: 1rem;
     border: 1px solid #666;
+    cursor: pointer;
 
     &._small {
         padding: .5rem;

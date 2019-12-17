@@ -1,7 +1,8 @@
 <div class="board-wrapper">
+    <div class="audio-message {{if (not (is-equal allowAudio undefined)) "_hide"}}">Allow audio to play?&nbsp;<a href="#" {{action (mut this.allowAudio) true}}>Yes</a>&nbsp;/&nbsp;<a href="#" {{action (mut this.allowAudio) false}}>No</a></div>
     {{#if this.model.isScoreView}}
         <ScoreBoard @gameState={{this.model}} />
     {{else}}
-        <GameBoard @gameState={{this.model}} />
+        <GameBoard @gameState={{this.model}} @allowAudio={{this.allowAudio}} />
     {{/if}}
 </div>

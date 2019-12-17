@@ -18,10 +18,10 @@
             {{#if answer.isImage}}
               <img class="_image" src={{answer.imageFile}} />
             {{else if answer.isAudio}}
-              {{#unless hasActions}}
-                <iframe src={{answer.audioFile}} allow="autoplay" style="display:none" id="iframeAudio">
+              {{#if (and (not hasActions) allowAudio)}}
+                <iframe src={{answer.audioFile}} allow="autoplay" style="display:none" id="iframeAudio3">
                 </iframe> 
-              {{/unless}}
+              {{/if}}
               <div class="answer-text">{{answer.answerText}}</div>
             {{else}}
               <div class="answer-text">{{answer.answerText}}</div>
@@ -39,17 +39,17 @@
   {{/each}}
 {{/each}}
 
-{{#unless hasActions}}
+{{#if (and (not hasActions) allowAudio)}}
   {{#if gameState.isTimeUp}}
       <iframe src="/content/TimesUp.mp3" allow="autoplay" style="display:none" id="iframeAudio">
       </iframe> 
   {{else if gameState.isThinking}}
-      <iframe src="/content/ThinkMusic.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+      <iframe src="/content/ThinkMusic.mp3" allow="autoplay" style="display:none" id="iframeAudio1">
       </iframe> 
   {{else if gameState.isThemeMusic}}
-      <iframe src="/content/ThemeSong.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+      <iframe src="/content/ThemeSong.mp3" allow="autoplay" style="display:none" id="iframeAudio2">
       </iframe> 
   {{/if}}
-{{/unless}}
+{{/if}}
 
 

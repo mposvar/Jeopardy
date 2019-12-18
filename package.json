@@ -2,7 +2,7 @@
   "name": "jeopardy",
   "version": "0.5.0",
   "description": "server and client for jeopardy",
-  "main": "jeopardy-game/server.js",
+  "main": "jeopardy-server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

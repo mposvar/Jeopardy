@@ -1,0 +1,6 @@
+# dependencies
+/node_modules/
+
+# local database
+/jeopardy-server/games/
+/jeopardy-server/game-states/

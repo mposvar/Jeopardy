@@ -4,3 +4,4 @@
 # local database
 /games/
 /game-states/
+/db/

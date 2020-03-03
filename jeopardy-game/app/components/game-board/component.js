@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { oneWay } from '@ember/object/computed';
-import { htmlSafe } from '@ember/template';
 
 export default class extends Component {
     gameState = null;

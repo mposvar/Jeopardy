@@ -1,0 +1,6 @@
+<h1>Games</h1>
+{{#each model as |game|}}
+    <h1>{{game.title}}</h1>
+{{/each}}
+
+<a style="margin-top: 1rem;" href="#" {{action 'createBoard'}}>Create New Game</a>

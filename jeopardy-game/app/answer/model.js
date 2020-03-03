@@ -1,17 +1,16 @@
-import DS from 'ember-data';
-const { Model } = DS;
 import { notEmpty } from '@ember/object/computed';
+import Model, { attr, belongsTo } from '@ember-data/model';
+
 
 export default class extends Model {
-    @DS.attr('number') price;
-    @DS.attr() answerText;
-    @DS.attr() questionText;
-    @DS.attr() audioFile;
-    @DS.attr() imageFile;
-    @DS.belongsTo('category') category;
+    @attr('number') price;
+    @attr() answerText;
+    @attr() questionText;
+    @attr() audioFile;
+    @attr() imageFile;
+    @belongsTo('category') category;
     isAnswer = true;
 
     @notEmpty('audioFile') isAudio;
     @notEmpty('imageFile') isImage;
-
 }

@@ -13,11 +13,14 @@
   "author": "\"Matt Posvar\"",
   "license": "ISC",
   "devDependencies": {
+    "@types/nedb": "^1.8.9",
     "nodemon": "^1.19.3"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "camo": "^0.12.3",
     "express": "^4.17.1",
+    "nedb": "^1.8.0",
     "socket.io": "^2.3.0"
   }
 }

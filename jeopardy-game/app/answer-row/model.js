@@ -1,6 +1,6 @@
-import DS from 'ember-data';
-const { Model } = DS;
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class extends Model {
-    @DS.attr('number') price;
+    @attr('number') price;
+    @belongsTo('game') game;
 }

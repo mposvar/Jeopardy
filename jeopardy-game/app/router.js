@@ -13,9 +13,9 @@ Router.map(function() {
   });
 
   this.route('board', function() {
-    this.route('create');
-    this.route('manage', { path: '/:game_id'});
-    this.route('create-game', { path: '/:game_id/create-game' });
+    this.route('manage', { path: '/:board_id'});
+    this.route('create-game', { path: '/:board_id/create-game' });
+    this.route('list');
   });
 });
 

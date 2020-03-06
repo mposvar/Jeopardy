@@ -5,7 +5,8 @@ class AnswerDisplay extends BaseDisplay {
     constructor(model) {
         super(model);
 
-        this.price = model.price;
+        this.category = model.categoryId;
+        this.price = model.priceId;
         this.answerText = model.answerText;
         this.questionText = model.questionText;
         this.audioFile = model.audioFile;

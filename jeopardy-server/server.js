@@ -8,10 +8,10 @@ const express = require('express'),
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());  
 
-const boardRoute = require('./api/routes/boardRoute'); //importing route
-boardRoute(app);
+const gameRoute = require('./api/routes/game-route'); //importing route
+gameRoute(app);
 
-const gameStateRoute = require('./api/routes/gameStateRoute');
+const gameStateRoute = require('./api/routes/game-state-route');
 gameStateRoute(app, io);
 
 io.on('connection', function(socket){

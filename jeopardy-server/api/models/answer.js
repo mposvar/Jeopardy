@@ -6,22 +6,32 @@ class Answer extends EmbeddedModelBase {
     constructor() {
         super();
 
-        this.price = Number;
+        this.categoryId = String;
+        this.priceId = String;
         this.answerText = String;
         this.questionText = String;
         this.audioFile = String;
         this.imageFile = String;
     }
 
-    static fromDisplay(display) {
+    static createFromDisplay(display) {
         return this.create({
-            _id: display.id || customUtils.uid(16),
-            price: display.price,
+            _id: customUtils.uid(16),
+            categoryId: display.category,
+            priceId: display.price,
             answerText: display.answerText,
             questionText: display.questionText,
             audioFile: display.audioFile,
             imageFile: display.imageFile
         });
+    }
+
+    updateFromDisplay(display) {
+        this.priceId = display.price;
+        this.answerText = display.answerText;
+        this.questionText = display.questionText;
+        this.audioFile = display.audioFile;
+        this.imageFile = display.imageFile;
     }
 
     static collectionName() {

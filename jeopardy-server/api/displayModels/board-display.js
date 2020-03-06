@@ -5,9 +5,9 @@ class BoardDisplay extends BaseDisplay {
     constructor(model) {
         super(model);
 
-        this.title = model.title;
-        this.categories = model.categories;
-        this.answerRows = model.answerRows;
+        this.game = model.gameId;
+        this.categories = model.categoryIds;
+        this.prices = model.prices;
     }
 }
 

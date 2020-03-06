@@ -1,32 +1,31 @@
 'use strict';
 const ModelBase = require('./model-base');
-//var Document = require('camo').Document;
+const Price = require('./price');
 
 class Board extends ModelBase {
     constructor() {
         super();
 
-        this.title = String;
-
-        this.categories = [String];
-
-        this.answerRows = [String];
+        this.gameId = String;
+        this.categoryIds = [String];
+        this.prices = [Price];
     }
 
-    static fromDisplay(display) {
-        console.log(display.categories);
+    static createFromDisplay(display) {
         return this.create({
             _id: display.id || null,
-            title: display.title,
-            categories: display.categories || [],
-            answerRows: display.answerRows || []
+            gameId: display.game,
+            categoryIds: display.categories || [],
+            prices: display.prices || []
         });
     }
 
-    updateFromDisplay(display) {
-        this.title = display.title;
-        this.categories = display.categories || [],
-        this.answerRows = display.answerRows || []
+    addPrice(price) {
+        this.prices.push(price);
+    }
+
+    addCategoryId(categoryId) {
+        this.categoryIds.push(categoryId);
     }
 
     static collectionName() {

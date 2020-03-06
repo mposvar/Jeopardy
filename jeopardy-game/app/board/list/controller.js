@@ -4,9 +4,9 @@ import { action } from '@ember/object';
 export default class extends Controller {
     @action
     createBoard() {
-        let board = this.store.createRecord('board');
-        return board.save().then((savedBoard) => {
-            this.transitionToRoute('board.manage', savedBoard);
+        let game = this.store.createRecord('game');
+        return game.save().then((savedGame) => {
+            this.transitionToRoute('board.manage', savedGame);
         });
     }
 }

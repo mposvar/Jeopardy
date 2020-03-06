@@ -3,6 +3,6 @@ import EmbeddedRecordsMixin from 'ember-data/serializers/embedded-records-mixin'
 
 export default DS.RESTSerializer.extend(EmbeddedRecordsMixin, {
     serialize: function(record) {
-        return this._super(record, {includeId: true});
+        return this._super(record, { includeId: true });
     }
 });

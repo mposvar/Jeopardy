@@ -7,20 +7,23 @@ class Category extends ModelBase {
     constructor() {
         super();
 
+        this.boardId = String;
         this.title = String;
         this.answers = [Answer];
-        this.boardId = String;
     }
 
-    static fromDisplay(display) {
+    static createFromDisplay(display) {
         return this.create({
-            _id: display.id || null,
+            boardId: display.board,
             title: display.title,
-            boardId: display.boardId,
             answers: display.answers.map((a) => {
-                return Answer.fromDisplay(a);
+                return Answer.createFromDisplay(a);
             }),
         });
+    }
+
+    updateFromDisplay(display) {
+        this.title = display.title;
     }
 
     static collectionName() {

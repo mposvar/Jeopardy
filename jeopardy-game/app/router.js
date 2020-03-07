@@ -7,15 +7,15 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('game', { path: '/games/:game_state_id' }, function() {
+  this.route('game-state', { path: '/:game_state_id' }, function() {
     this.route('operate');
     this.route('play');
   });
-
-  this.route('board', function() {
-    this.route('manage', { path: '/:board_id'});
-    this.route('create-game', { path: '/:board_id/create-game' });
-    this.route('list');
+  this.route('games', function() {
+    this.route('game', { path: '/:game_id' }, function() {
+      this.route('start');
+      this.route('edit');
+    });
   });
 });
 

@@ -1,0 +1,23 @@
+<h1>I'm a board!</h1>
+
+<div style="padding-left: 16rem;">
+    {{#each this.board.categories as |category|}}
+        <div style="display: inline-block;">{{category.title}}</div>
+    {{/each}}
+
+    {{#if (lt this.board.categories.length 6)}}
+        <div style="display: inline-block;">
+            <a href="#" {{action @onAddCategory}}>+ Add Category</a>
+        </div>
+    {{/if}}
+</div>
+
+{{#each this.board.prices as |price|}}
+    <div style="width: 16rem;">${{price.amount}}</div>
+{{/each}}
+
+{{#if (lt this.board.prices.length 6)}}
+    <div style="width: 16rem;">
+        <a href="#" {{action @onAddPrice}}>+ Add Price Row</a>
+    </div>
+{{/if}}

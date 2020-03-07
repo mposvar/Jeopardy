@@ -1,0 +1,6 @@
+<h1>Games</h1>
+{{#each model as |game|}}
+    <h1>{{game.title}} <LinkTo @route="games.game.edit" @model={{game}}>Edit</LinkTo></h1>
+{{/each}}
+
+<a style="margin-top: 1rem;" href="#" {{action 'createGame'}}>Create New Game</a>

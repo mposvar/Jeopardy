@@ -1,0 +1,22 @@
+{{outlet}}
+
+<div>
+    <label>Title</label>
+    <input type="text" value={{model.title}} oninput={{action (mut model.title) value="target.value"}} />
+</div>
+
+<div style="margin-top: 2rem;">
+    <button class="button _primary" {{action "saveGame"}}>Save Changes</button>
+</div>
+
+<div style="margin-top: 2rem;">
+    <BoardBuilder 
+        @board={{this.model.boards.firstObject}} 
+        @onAddCategory={{action (mut isBlah) true}} 
+        @onAddPrice={{action (mut isBlah) true}}
+    />
+</div>
+
+{{#if this.isSaving}}
+    <p>Saving...</p>
+{{/if}}

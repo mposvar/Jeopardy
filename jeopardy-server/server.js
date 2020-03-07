@@ -11,8 +11,11 @@ app.use(bodyParser.json());
 const gameRoute = require('./api/routes/game-route'); //importing route
 gameRoute(app);
 
-const gameStateRoute = require('./api/routes/game-state-route');
-gameStateRoute(app, io);
+const boardRoute = require('./api/routes/board-route');
+boardRoute(app);
+
+// const gameStateRoute = require('./api/routes/game-state-route');
+// gameStateRoute(app, io);
 
 io.on('connection', function(socket){
   console.log('a user connected');

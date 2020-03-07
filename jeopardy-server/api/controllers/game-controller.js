@@ -54,10 +54,19 @@ exports.createGame = async function(req, res) {
     
     const game = Game.createFromDisplay(req.body.game);
 
-    const savedGame = await game.save();
+    let savedGame = await game.save();
+
+    const board = Board.createInitialBoard(savedGame._id);
+
+    const savedBoard = await board.save();
+
+    savedGame.addBoardId(savedBoard._id);
+
+    savedGame = await savedGame.save();
     
     const result = {
-        game: new GameDisplay(savedGame)
+        game: new GameDisplay(savedGame),
+        boards: [new BoardDisplay(savedBoard)]
     }
 
     res.json(result);

@@ -8,6 +8,7 @@ class BoardDisplay extends BaseDisplay {
         this.game = model.gameId;
         this.categories = model.categoryIds;
         this.prices = model.prices;
+        this.round = model.round;
     }
 }
 

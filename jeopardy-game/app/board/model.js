@@ -1,6 +1,8 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
 
 export default class extends Model {
-    @hasMany('category', { async: false }) categories;
-    @attr('array') priceRows;
+    @hasMany('category') categories;
+    @hasMany('price') prices;
+    @attr('number') round;
+    @belongsTo('game') game;
 }

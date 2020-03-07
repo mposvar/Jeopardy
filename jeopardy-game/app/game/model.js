@@ -1,9 +1,18 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
-
+import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
+import { computed } from '@ember/object';
 
 export default class extends Model {
     @attr('string') title;
-    @belongsTo('board') roundOne;
-    @belongsTo('board') roundTwo;
-    @belongsTo('answer') finalJeopardyAnswer;
+    @hasMany('board') boards;
+    @belongsTo('answer') finalJeopardy;
+
+    @computed('boards.@each.round')
+    get roundOneBoard() {
+        return this.get('boards').findBy('round', 1);
+    }
+
+    @computed('boards.@each.round')
+    get roundTwoBoard() {
+        return this.get('boards').findBy('round', 2);
+    }
 }

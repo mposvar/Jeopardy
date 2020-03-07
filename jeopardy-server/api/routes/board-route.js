@@ -7,7 +7,7 @@ module.exports = function(app) {
     .get(boardController.fetchBoards)
     .post(boardController.createBoard);
 
-  app.route('/boards/:boardId')
+  app.route('/boards/:board_id')
     .get(boardController.fetchBoard)
     .put(boardController.saveBoard);
 };

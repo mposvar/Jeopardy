@@ -1,13 +1,36 @@
 'use strict';
-const Board = require('../models/board'),
-    Game = require('../models/game'),
-    Category = require('../models/category'),
-    AnswerRow = require('../models/answer-row'),
-    BoardDisplay = require('../displayModels/board-display'),
-    CategoryDisplay = require('../displayModels/category-display'),
-    connect = require('camo').connect,
-    uri = 'nedb://db';
+const   Board = require('../models/board'),
+        Game = require('../models/game'),
+        BoardDisplay = require('../displayModels/board-display'),
+        connect = require('camo').connect,
+        uri = 'nedb://db';
 
+
+exports.fetchBoards = async function(req, res) {
+    await connect(uri);
+
+    const ids = req.params.ids;
+    const boards = await Board.find({ _id: ids });
+
+    const result = {
+        boards: boards.map((board) => new BoardDisplay(board))
+    }
+
+    res.json(result);
+}
+
+exports.fetchBoard = async function(req, res) {
+    await connect(uri);
+
+    const id = req.params.board_id;
+    const board = await Board.findOne({ _id: id });
+
+    const result = {
+        board: new BoardDisplay(board)
+    }
+
+    res.json(result);
+}
 
 exports.createBoard = async function(req, res) {
     await connect(uri);
@@ -29,24 +52,21 @@ exports.createBoard = async function(req, res) {
     res.json(result);
 };
 
-exports.saveBoard = function(req, res) {
-    return connect(uri).then(function() {
-        const id = req.params.boardId;
+exports.saveBoard = async function(req, res) {
+    await connect(uri);
+    
+    const id = req.params.board_id;
 
-        return Board.findOne({ _id: id }).then((board) => {
-            
-            board.updateFromDisplay(req.body.board);
+    const board = await Board.findOne({ _id: id });
 
-            return board.save().then((savedBoard) => {
-                if (!savedBoard) return null;
-                let result = {
-                    board: new BoardDisplay(savedBoard)
-                }
-                res.json(result);
-            }).catch(err => { throw err; });
+    board.updateFromDisplay(req.body.board);
 
-        }).catch(err => { throw err; });
-        
-    });
+    const savedBoard = await board.save();
+
+    let result = {
+        board: new BoardDisplay(savedBoard)
+    }
+    
+    res.json(result);
 };
 

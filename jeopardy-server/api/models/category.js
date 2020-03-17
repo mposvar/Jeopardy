@@ -13,12 +13,16 @@ class Category extends ModelBase {
     }
 
     static createFromDisplay(display) {
+        let answers = [];
+        if (display.answers) {
+            answers = display.answers.map((a) => {
+                return Answer.createFromDisplay(a);
+            });
+        }
         return this.create({
             boardId: display.board,
             title: display.title,
-            answers: display.answers.map((a) => {
-                return Answer.createFromDisplay(a);
-            }),
+            answers: answers
         });
     }
 

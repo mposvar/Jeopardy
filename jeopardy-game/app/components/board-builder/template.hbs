@@ -1,23 +1,67 @@
-<h1>I'm a board!</h1>
 
-<div style="padding-left: 16rem;">
-    {{#each this.board.categories as |category|}}
-        <div style="display: inline-block;">{{category.title}}</div>
+<div class="table">
+    <div class="table-row">
+        <div class="table-cell _indent">&nbsp;</div>
+
+        {{#each this.board.categories as |category|}}
+            <div class="table-cell _bordered">{{category.title}}</div>
+        {{/each}}
+
+        {{#each this.remainingCategories as |remainingCategory|}}
+            <div class="table-cell _dashed _header">
+                {{#if (eq remainingCategories.firstObject remainingCategory)}}
+                    <a href="#" {{action @onAddCategory}}>+ Add Category</a>
+                {{else}}
+                    <span>+ Add Category</span>
+                {{/if}}
+            </div>
+        {{/each}}
+
+    </div>
+
+    {{#each this.board.prices as |price|}}
+        <div class="table-row">
+            <div class="table-cell">${{price.amount}}</div>
+
+            {{#each this.board.categories as |category|}}
+                {{#let (find-by "price" price category.answers) as |answer|}}
+                    <div class="table-cell _bordered">
+                        <div>
+                            Question - {{answer.questionText}}
+                        </div>
+                        <div>
+                            Answer - {{answer.answerText}}
+                        </div>
+                    </div>
+                {{/let}}
+            {{/each}}
+
+            {{#each this.remainingCategories}}
+                <div class="table-cell _content _dashed">
+                    <span>&nbsp;</span>
+                </div>
+            {{/each}}
+        </div>
     {{/each}}
 
-    {{#if (lt this.board.categories.length 6)}}
-        <div style="display: inline-block;">
-            <a href="#" {{action @onAddCategory}}>+ Add Category</a>
+    {{#each this.remainingPrices as |price|}}
+        <div class="table-row">
+            <div class="table-cell _row-header _indent">
+                {{#if (eq price this.remainingPrices.firstObject)}}
+                    <a href="#" {{action (fn this.addPrice price)}}>+ Add Price Row</a>
+                {{else}}
+                    <span>+Add Price Row</span>
+                {{/if}}
+            </div>
+
+            {{#each this.remainingCategories}}
+                <div class="table-cell _dashed _content">
+                    <span>&nbsp;</span>
+                </div>
+            {{/each}}
         </div>
-    {{/if}}
+    {{/each}}
 </div>
 
-{{#each this.board.prices as |price|}}
-    <div style="width: 16rem;">${{price.amount}}</div>
-{{/each}}
 
-{{#if (lt this.board.prices.length 6)}}
-    <div style="width: 16rem;">
-        <a href="#" {{action @onAddPrice}}>+ Add Price Row</a>
-    </div>
-{{/if}}
+

@@ -1,8 +1,10 @@
 import DS from 'ember-data';
-const { Model } = DS;
+const { Model, attr, hasMany, belongsTo } = DS;
 
 export default class extends Model {
-    @DS.attr() title;
-    @DS.hasMany('answer') answers;
+    @attr() title;
+
+    @hasMany('answer') answers;
+    @belongsTo('board') board;
     isCategory = true;
 }

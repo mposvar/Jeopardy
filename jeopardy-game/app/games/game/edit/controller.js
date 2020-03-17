@@ -12,4 +12,50 @@ export default class extends Controller {
             this.set('isSaving', false);
         });
     }
+
+    @action
+    addCategory(board) {
+        this.set('isSaving', true);
+
+        const category = this.store.createRecord('category', {
+            board: board
+        });
+
+        return category.save().then(() => {
+            this.set('isSaving', false);
+        });
+    }
+
+    @action
+    addPrice(board, amount) {
+        this.set('isSaving', true);
+
+        const price = this.store.createRecord('price', {
+            board: board,
+            amount: amount
+        });
+
+        return price.save().then(() => {
+            this.set('isSaving', false);
+        });
+    }
+
+    @action
+    addBoard() {
+        this.set('isSaving', true);
+
+        const board = this.store.createRecord('board', {
+            game: this.model,
+            round: 2
+        });
+
+        return board.save().then(() => {
+            this.set('isSaving', false);
+        });
+    }
+
+    @action
+    addFinalJeopardy() {
+
+    }
 }

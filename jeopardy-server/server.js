@@ -14,6 +14,9 @@ gameRoute(app);
 const boardRoute = require('./api/routes/board-route');
 boardRoute(app);
 
+const categoryRoute = require('./api/routes/category-route');
+categoryRoute(app);
+
 // const gameStateRoute = require('./api/routes/game-state-route');
 // gameStateRoute(app, io);
 

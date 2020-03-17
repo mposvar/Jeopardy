@@ -1,70 +1,68 @@
 'use strict';
-const Board = require('../models/board'),
-    Category = require('../models/category'),
-    BoardDisplay = require('../displayModels/board-display'),
+const Category = require('../models/category'),
     CategoryDisplay = require('../displayModels/category-display'),
     connect = require('camo').connect,
     uri = 'nedb://db';
 
 
-exports.fetchCategory = function(req, res) {
+exports.fetchCategory = async function(req, res) {
     const id = req.params.categoryId;
-    connect(uri).then(function() {
-        Category.findOne({ _id: id }).then(function(category) {
-            let result = {
-                category: new CategoryDisplay(category)
-            };
-            res.json(result);
-        }).catch(err => { throw err; });
-    });
+
+    await connect(uri);
+
+    let category = await Category.findOne({ _id: id });
+
+    let result = {
+        category: new CategoryDisplay(category)
+    };
+
+    res.json(result);
 };
 
-exports.fetchCategoriesByBoardId = function(_, res) {
-    connect(uri).then(function() {
-        const id = req.params.boardId
-        let result = { };
+exports.fetchCategoriesByBoardId = async function(_, res) {
+    const id = req.params.boardId;
 
-        Category.find({ boardId:   }).then(function(categories) {
-            result.categories = categories.map(b => new CategoryDisplay(b));
-            res.json(result);
-        }).catch(err => { throw err; });
-
-    });
-};
-
-exports.createBoard = function(req, res) {
-    return connect(uri).then(function() {
-
-        const board = Board.fromDisplay(req.body.board);
-
-        return board.save().then((savedBoard) => {
-            if (!savedBoard) return null;
-            let result = {
-                board: new BoardDisplay(savedBoard)
-            }
-            res.json(result);
-        }).catch(err => { throw err; });
-    });
-};
-
-exports.saveBoard = function(req, res) {
-    return connect(uri).then(function() {
-        const id = req.params.boardId;
-
-        return Board.findOne({ _id: id }).then((board) => {
-            
-            board.updateFromDisplay(req.body.board);
-
-            return board.save().then((savedBoard) => {
-                if (!savedBoard) return null;
-                let result = {
-                    board: new BoardDisplay(savedBoard)
-                }
-                res.json(result);
-            }).catch(err => { throw err; });
-
-        }).catch(err => { throw err; });
+    await connect(uri);        
         
-    });
+    let categories = await Category.find({ boardId: id });
+
+    let result = {
+        categories: categories.map(b => new CategoryDisplay(b))
+    }
+
+    res.json(result);
+};
+
+exports.createCategory = async function(req, res) {
+    await connect(uri);
+
+    const category = Category.createFromDisplay(req.body.category);
+
+    const savedCategory = await category.save();
+
+    if (!savedCategory) return null;
+
+    let result = {
+        category: new CategoryDisplay(savedCategory)
+    }
+    res.json(result);
+};
+
+exports.saveCategory = async function(req, res) {
+    const id = req.params.categoryId;
+
+    await connect(uri);
+
+    let category = await Category.findOne({ _id: id });
+
+    category.updateFromDisplay(req.body.category);
+
+    const updatedCategory = await category.save();
+
+    let result = {
+        category: new CategoryDisplay(updatedCategory)
+    };
+
+    res.json(result);
 };
 

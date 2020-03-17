@@ -10,11 +10,35 @@
 </div>
 
 <div style="margin-top: 2rem;">
-    <BoardBuilder 
-        @board={{this.model.boards.firstObject}} 
-        @onAddCategory={{action (mut isBlah) true}} 
-        @onAddPrice={{action (mut isBlah) true}}
-    />
+    <h1>Initial Board</h1>
+    {{#let this.model.boards.firstObject as |initialBoard|}}
+        <BoardBuilder 
+            @board={{initialBoard}} 
+            @onAddCategory={{action (fn this.addCategory initialBoard)}} 
+            @onAddPrice={{action (fn this.addPrice initialBoard)}}
+        />
+    {{/let}}
+</div>
+
+<div style="margin-top: 2rem;">
+    {{#if (eq this.model.boards.length 2)}}
+        {{#let this.model.boards.lastObject as |doubleBoard|}}
+            <BoardBuilder 
+                @board={{doubleBoard}} 
+                @onAddCategory={{action this.addCategory doubleBoard}} 
+                @onAddPrice={{action this.addPrice doubleBoard}}
+            />
+        {{/let}}
+    {{else}}
+        <button class="button _primary" {{action (fn this.addBoard)}}>Add Double Jeopardy Board</button>
+    {{/if}}
+</div>
+
+<div style="margin-top: 2rem;">
+    {{#if this.model.finalJeopady}}
+    {{else}}
+        <button class="button _primary" {{action (fn this.addFinalJeopardy)}}>Add Final Jeopardy Question</button>
+    {{/if}}
 </div>
 
 {{#if this.isSaving}}

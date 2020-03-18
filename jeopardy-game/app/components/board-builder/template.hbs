@@ -1,67 +1,103 @@
 
-<div class="table">
-    <div class="table-row">
-        <div class="table-cell _indent">&nbsp;</div>
-
-        {{#each this.board.categories as |category|}}
-            <div class="table-cell _bordered">{{category.title}}</div>
-        {{/each}}
-
-        {{#each this.remainingCategories as |remainingCategory|}}
-            <div class="table-cell _dashed _header">
-                {{#if (eq remainingCategories.firstObject remainingCategory)}}
-                    <a href="#" {{action @onAddCategory}}>+ Add Category</a>
-                {{else}}
-                    <span>+ Add Category</span>
-                {{/if}}
-            </div>
-        {{/each}}
-
-    </div>
-
-    {{#each this.board.prices as |price|}}
+<div class="board-builder-component">
+    <div class="table">
         <div class="table-row">
-            <div class="table-cell">${{price.amount}}</div>
+            <div class="table-cell _indent">&nbsp;</div>
 
-            {{#each this.board.categories as |category|}}
-                {{#let (find-by "price" price category.answers) as |answer|}}
-                    <div class="table-cell _bordered">
-                        <div>
-                            Question - {{answer.questionText}}
+            {{#each @board.categories as |category|}}
+                <div class="table-cell _bordered _header">{{coalesce category.title "(No category name)"}}</div>
+            {{/each}}
+
+            {{#each this.remainingCategories as |remainingCategory|}}
+                <div class="table-cell _header">
+                    {{#if (eq remainingCategories.firstObject remainingCategory)}}
+                        <div class="_dashed _active {{if (eq this.highlightedIndex remainingCategory.index) "_highlighted"}}">
+                            <a 
+                                href="#" 
+                                class="create-prompt"
+                                {{on "click" @onAddCategory}}
+                                {{on "mouseenter" (fn this.setHighlight remainingCategory.index)}}
+                                {{on "mouseleave" (fn this.setHighlight null)}}>+<br>Add Category</a>
                         </div>
-                        <div>
-                            Answer - {{answer.answerText}}
+                    {{else}}
+                        <div class="_dashed">
+                            <div class="create-prompt">
+                                +<br>Add Category</div>
+                            </div>
+                    {{/if}}
+                </div>
+            {{/each}}
+
+        </div>
+
+        {{#each @board.prices as |price|}}
+            <div class="table-row">
+                <div class="table-cell _indent"></div>
+
+                {{#each @board.categories as |category|}}
+                    {{#let (find-by "price" price category.answers) as |answer|}}
+                        <div class="table-cell _bordered">
+                            {{#if answer}}
+                                <div>
+                                    Question - {{answer.questionText}}
+                                </div>
+                                <div>
+                                    Answer - {{answer.answerText}}
+                                </div>
+                            {{else}}
+                                <div>
+                                    +<br>Add Answer
+                                </div>
+                            {{/if}}
+                        </div>
+                    {{/let}}
+                {{/each}}
+
+                {{#each this.remainingCategories as |category|}}
+                    <div class="table-cell">
+                        <div class="_dashed {{if (eq category.index this.highlightedIndex) "_highlighted"}}">
                         </div>
                     </div>
-                {{/let}}
-            {{/each}}
-
-            {{#each this.remainingCategories}}
-                <div class="table-cell _content _dashed">
-                    <span>&nbsp;</span>
-                </div>
-            {{/each}}
-        </div>
-    {{/each}}
-
-    {{#each this.remainingPrices as |price|}}
-        <div class="table-row">
-            <div class="table-cell _row-header _indent">
-                {{#if (eq price this.remainingPrices.firstObject)}}
-                    <a href="#" {{action (fn this.addPrice price)}}>+ Add Price Row</a>
-                {{else}}
-                    <span>+Add Price Row</span>
-                {{/if}}
+                {{/each}}
             </div>
+        {{/each}}
 
-            {{#each this.remainingCategories}}
-                <div class="table-cell _dashed _content">
-                    <span>&nbsp;</span>
+        {{#each this.remainingPrices as |price|}}
+            <div class="table-row">
+                <div class="table-cell _indent">
+                    {{#if (eq price this.remainingPrices.firstObject)}}
+                        <div class="_indent _dashed _active">
+                            <div class="create-prompt" {{on "click" (fn this.addPrice price)}}>
+                                <span>+<br>Add Price Row</span>
+                                <div>${{price.amount}}</div>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="_dashed">
+                            <div class="create-prompt">
+                                <div>+<br>Add Price Row</div>
+                                <div>${{price.amount}}</div>
+                            </div>
+                        </div>
+                    {{/if}}
                 </div>
-            {{/each}}
-        </div>
-    {{/each}}
+                
+                {{#each @board.categories as |category|}}
+                    <div class="table-cell">
+                        <div class="_dashed">
+                        </div>
+                    </div>
+                {{/each}}
+                {{#each this.remainingCategories as |category|}}
+                    <div class="table-cell">
+                        <div class="_dashed">
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        {{/each}}
+    </div>
 </div>
-
 
 

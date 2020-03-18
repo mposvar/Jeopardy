@@ -1,61 +1,61 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 import { sort } from '@ember/object/computed';
 import { A as EmberArray } from '@ember/array';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 const maxPriceRows = 5;
 const maxCategoryRows = 6;
 
-export default class extends Component {
-    classNames = ['board-builder-component'];
+export default class BoardBuilderComponent extends Component {
     
     //configuration
     board = null;
     onAddCategory = null;
     onAddPrice = null;
 
-    _sortProperties = ['amount'];
-    @sort('board.prices', '_sortProperties')
-    _sortedPrices;
+    @tracked sortProperties = ['amount'];
+    @tracked highlightedIndex = null;
+    @sort('board.prices', 'sortProperties') sortedPrices;
 
-    @computed('_sortedPrices.@each.amount')
     get remainingPrices() {
         let differenceEstimate = 100;
         let lastPrice = 0;
 
-        if (this._sortedPrices.length) {
-            lastPrice = this._sortedPrices.lastObject.amount;
-            const firstPrice = this._sortedPrices.length > 1 
-                ? this._sortedPrices.objectAt(this._sortedPrices.length - 2).amount
+        if (this.sortedPrices.length) {
+            lastPrice = this.sortedPrices.lastObject.amount;
+            const firstPrice = this.sortedPrices.length > 1 
+                ? this.sortedPrices.objectAt(this.sortedPrices.length - 2).amount
                 : 0;
             differenceEstimate = lastPrice - firstPrice;
         }
 
         let output = EmberArray();
         let currentPrice = lastPrice;
-        for (let i = this._sortedPrices.length; i < maxPriceRows; i++) {
+        for (let i = this.sortedPrices.length; i < maxPriceRows; i++) {
             currentPrice += differenceEstimate;
-            output.addObject({ amount: currentPrice, isRequired: i < 2 });
+            output.addObject({ amount: currentPrice, isRequired: i < 2, categoryIndex: i });
         }
 
         return output;
     }
 
-    @computed('this.board.categories.length')
     get remainingCategories() {
 
         let output = EmberArray();
-        for (let i = this.board.categories.length; i < maxCategoryRows; i++) {
-            output.addObject({ isRequired: i < 2 });
+        for (let i = this.args.board.categories.length; i < maxCategoryRows; i++) {
+            output.addObject({ isRequired: i < 2, index: i });
         }
 
         return output;
     }
 
-    @action
-    addPrice(price) {
-        return this.onAddPrice(price.amount);
+    @action addPrice(price) {
+        return this.args.onAddPrice(price.amount);
+    }
+
+    @action setHighlight(index) {
+        this.highlightedIndex = index;
     }
     
 }

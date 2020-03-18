@@ -1,6 +1,7 @@
 'use strict';
 const Category = require('../models/category'),
     CategoryDisplay = require('../displayModels/category-display'),
+    Board = require('../models/board'),
     connect = require('camo').connect,
     uri = 'nedb://db';
 
@@ -42,9 +43,16 @@ exports.createCategory = async function(req, res) {
 
     if (!savedCategory) return null;
 
+    const board = await Board.findOne({ _id: savedCategory.boardId });
+
+    board.addCategoryId(savedCategory._id);
+
+    await board.save();
+
     let result = {
         category: new CategoryDisplay(savedCategory)
     }
+    
     res.json(result);
 };
 

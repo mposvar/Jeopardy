@@ -1,8 +1,9 @@
 
 <div class="board-builder-component">
+    <h1>HI! {{this.sortedPrices.length}}</h1>
     <div class="table">
         <div class="table-row">
-            <div class="table-cell _indent">&nbsp;</div>
+            <div class="table-cell _indent _header">&nbsp;</div>
 
             {{#each @board.categories as |category|}}
                 <div class="table-cell _bordered _header">{{coalesce category.title "(No category name)"}}</div>

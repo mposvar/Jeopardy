@@ -32,7 +32,6 @@ exports.fetchGame = async function(req, res) {
     else {
         
         const categories = await Category.find({ boardId: { $in: boardIds }});
-        console.log(categories);
         result.categories = categories.map((c) => new CategoryDisplay(c));
 
         res.json(result);

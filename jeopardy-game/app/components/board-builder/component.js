@@ -10,13 +10,13 @@ const maxCategoryRows = 6;
 export default class BoardBuilderComponent extends Component {
     
     //configuration
-    board = null;
-    onAddCategory = null;
-    onAddPrice = null;
+    // board = null;
+    // onAddCategory = null;
+    // onAddPrice = null;
 
     @tracked sortProperties = ['amount'];
     @tracked highlightedIndex = null;
-    @sort('board.prices', 'sortProperties') sortedPrices;
+    @sort('args.board.prices', 'sortProperties') sortedPrices;
 
     get remainingPrices() {
         let differenceEstimate = 100;

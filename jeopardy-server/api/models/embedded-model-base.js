@@ -5,14 +5,15 @@ class EmbeddedModelBase extends EmbeddedDocument {
     constructor() {
         super();
 
-        this._id = {
+        this.documentId = {
             type: String,
-            unique: true
+            unique: true,
+            required: true
         };
     }
 
     getId() {
-        return this._id;
+        return this.documentId;
     }
 }
 

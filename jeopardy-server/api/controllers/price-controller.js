@@ -32,7 +32,7 @@ exports.savePrice = async function(req, res) {
 
     let board = await Board.findOne({ _id: boardId });
 
-    let price = board.prices.find((price) => price._id === id);
+    let price = board.prices.find((price) => price.documentId === id);
 
     price.updateFromDisplay(req.body.price);
 

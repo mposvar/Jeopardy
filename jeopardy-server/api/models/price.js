@@ -12,11 +12,12 @@ class Price extends EmbeddedModelBase {
 
     static createFromDisplay(display) {
         return this.create({
-            _id: customUtils.uid(16),
+            documentId: customUtils.uid(16),
             boardId: display.board,
             amount: display.amount,
         });
     }
+
 
     updateFromDisplay(display) {
         this.amount = display.amount;

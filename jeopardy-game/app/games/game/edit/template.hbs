@@ -14,8 +14,9 @@
     {{#let this.model.boards.firstObject as |initialBoard|}}
         <BoardBuilder 
             @board={{initialBoard}} 
-            @onAddCategory={{action (fn this.addCategory initialBoard)}} 
-            @onAddPrice={{action (fn this.addPrice initialBoard)}}
+            @onAddCategory={{fn this.addCategory initialBoard}} 
+            @onAddPrice={{fn this.addPrice initialBoard}}
+            @onAddAnswer={{fn this.addAnswer}}
         />
     {{/let}}
 </div>

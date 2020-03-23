@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { sort } from '@ember/object/computed';
 import { A as EmberArray } from '@ember/array';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 const maxPriceRows = 5;
@@ -16,6 +16,7 @@ export default class BoardBuilderComponent extends Component {
 
     @tracked sortProperties = ['amount'];
     @tracked highlightedIndex = null;
+    @tracked editingAnswer = null;
     @sort('args.board.prices', 'sortProperties') sortedPrices;
 
     get remainingPrices() {
@@ -50,12 +51,26 @@ export default class BoardBuilderComponent extends Component {
         return output;
     }
 
-    @action addPrice(price) {
-        return this.args.onAddPrice(price.amount);
-    }
-
     @action setHighlight(index) {
         this.highlightedIndex = index;
+    }
+
+    @action setEditingAnswer(answer) {
+        this.editingAnswer = answer;
+    }
+
+    @action saveAnswer(answer) {
+        return answer.save().then(() => {
+            this.editingAnswer = null;
+        });
+    }
+
+    @action setAnswerText(answer, event) {
+        set(answer, 'answerText', event.target.value);
+    }
+
+    @action setQuestionText(answer, event) {
+        set(answer, 'questionText', event.target.value);
     }
     
 }

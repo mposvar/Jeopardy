@@ -1,6 +1,6 @@
 
 <div class="board-builder-component">
-    <h1>HI! {{this.sortedPrices.length}}</h1>
+    {{#if isEditingAnswer}}<div class="board-overlay"></div>{{/if}}
     <div class="table">
         <div class="table-row">
             <div class="table-cell _indent _header">&nbsp;</div>
@@ -36,17 +36,34 @@
                 <div class="table-cell _indent"></div>
 
                 {{#each @board.categories as |category|}}
-                    {{#let (find-by "price" price category.answers) as |answer|}}
+                    {{#let (find-by "price.id" price.id category.answers) as |answer|}}
                         <div class="table-cell _bordered">
-                            {{#if answer}}
-                                <div>
-                                    Question - {{answer.questionText}}
+                            {{#if (and answer (eq answer this.editingAnswer))}}
+                                <div class="editing-answer answer-inner">
+                                    <div>
+                                        <label>Answer</label>
+                                        <input type="text" value={{answer.answerText}} {{on "input" (fn this.setAnswerText answer)}}>
+                                    </div>
+                                    <div>
+                                        <label>Question</label>
+                                        <input type="text" value={{answer.questionText}} {{on "input" (fn this.setQuestionText answer)}}>
+                                    </div>
+                                    <button class="button _primary" {{on "click" (fn this.saveAnswer answer)}}>Save Answer</button>
                                 </div>
-                                <div>
-                                    Answer - {{answer.answerText}}
+                            {{else if answer}}
+                                <div class="answer-inner">
+                                    <div>
+                                        Answer - {{answer.answerText}}
+                                    </div>
+                                    <div>
+                                        Question - {{answer.questionText}}
+                                    </div>
+                                    <div>
+                                        <a href="#" {{on "click" (fn this.setEditingAnswer answer)}}>edit</a>
+                                    </div>
                                 </div>
                             {{else}}
-                                <div>
+                                <div {{on "click" (fn @onAddAnswer category price)}}>
                                     +<br>Add Answer
                                 </div>
                             {{/if}}
@@ -68,7 +85,7 @@
                 <div class="table-cell _indent">
                     {{#if (eq price this.remainingPrices.firstObject)}}
                         <div class="_indent _dashed _active">
-                            <div class="create-prompt" {{on "click" (fn this.addPrice price)}}>
+                            <div class="create-prompt" {{on "click" (fn @onAddPrice this.model price)}}>
                                 <span>+<br>Add Price Row</span>
                                 <div>${{price.amount}}</div>
                             </div>

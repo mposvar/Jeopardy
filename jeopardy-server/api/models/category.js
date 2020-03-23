@@ -26,6 +26,10 @@ class Category extends ModelBase {
         });
     }
 
+    addAnswer(answer) {
+        this.answers.push(answer);
+    }
+
     updateFromDisplay(display) {
         this.title = display.title;
     }

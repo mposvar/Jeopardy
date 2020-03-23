@@ -20,6 +20,9 @@ categoryRoute(app);
 const priceRoute = require('./api/routes/price-route');
 priceRoute(app);
 
+const answerRoute = require('./api/routes/answer-route');
+answerRoute(app);
+
 // const gameStateRoute = require('./api/routes/game-state-route');
 // gameStateRoute(app, io);
 

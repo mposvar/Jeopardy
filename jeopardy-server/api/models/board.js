@@ -32,7 +32,6 @@ class Board extends ModelBase {
     }
 
     addPrice(price) {
-        console.log(price);
         this.prices.push(price);
     }
 

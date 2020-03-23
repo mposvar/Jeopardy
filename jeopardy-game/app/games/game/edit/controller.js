@@ -40,6 +40,19 @@ export default class extends Controller {
         });
     }
 
+    @action addAnswer(category, price) {
+        this.set('isSaving', true);
+
+        const answer = this.store.createRecord('answer', {
+            price: price,
+            category: category
+        });
+
+        return answer.save().then(() => {
+            this.set('isSaving', false);
+        });
+    }   
+
     @action
     addBoard() {
         this.set('isSaving', true);

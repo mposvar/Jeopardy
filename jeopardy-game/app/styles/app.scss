@@ -399,3 +399,20 @@ body {
         }
     }
 }
+
+.editable-text-component {
+    &._include-hover:hover {
+        border: 1px solid #ccc;
+        background-color: #ddefff;
+    }
+
+    .editable-target {
+        display: block;
+        padding: .5rem;
+        cursor: pointer;
+    }
+
+    input {
+        padding: .5rem;
+    }
+}

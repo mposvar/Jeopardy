@@ -65,6 +65,11 @@ export default class BoardBuilderComponent extends Component {
         });
     }
 
+    @action async saveCategoryText(category, categoryText) {
+        category.set('title', categoryText);
+        return await category.save();
+    }
+
     @action setAnswerText(answer, event) {
         set(answer, 'answerText', event.target.value);
     }

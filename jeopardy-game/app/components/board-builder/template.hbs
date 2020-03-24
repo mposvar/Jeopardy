@@ -6,7 +6,14 @@
             <div class="table-cell _indent _header">&nbsp;</div>
 
             {{#each @board.categories as |category|}}
-                <div class="table-cell _bordered _header">{{coalesce category.title "(No category name)"}}</div>
+                <div class="table-cell _bordered _header">
+                    <EditableText
+                        @onSaveText={{fn this.saveCategoryText category}}
+                        @value={{category.title}}
+                        @defaultText="(No category name)"
+                        placeholder="Type a category name..." 
+                    />
+                </div>
             {{/each}}
 
             {{#each this.remainingCategories as |remainingCategory|}}

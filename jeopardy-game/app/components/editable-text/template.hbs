@@ -1,0 +1,16 @@
+
+<div class="editable-text-component {{if (not this.isEditing) "_include-hover"}}">
+    {{#unless this.isEditing}}
+        <span class="editable-target" {{on "click" this.setIsEditing}}>{{coalesce @value @defaultText}}</span>
+    {{else}}
+        <input 
+            ...attributes
+            type="text"
+            value={{this._value}}
+            {{on "input" this.setValue}}
+            {{on "keydown" this.saveOnEnter}}
+            {{did-insert this.autoFocus}}
+            {{on "blur" this.saveAndClose}}
+        >
+    {{/unless}}
+</div>

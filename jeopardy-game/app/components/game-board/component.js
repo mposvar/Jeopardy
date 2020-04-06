@@ -1,38 +1,38 @@
-import Component from '@ember/component';
-import { action, computed } from '@ember/object';
-import { oneWay } from '@ember/object/computed';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
+import { htmlSafe } from '@ember/template';
 
-export default class extends Component {
-    gameState = null;
+export default class GameBoardComponent extends Component {
+    //gameState;
+    //hasActions;
+    //onSelectCategory;
+    //onSelectAnswer;
+    //allowAudio;
 
-    hasActions = false;
-
-    @oneWay('gameState.game')
-    game;
+    @readOnly('args.gameState.game.boards.firstObject')
+    board;
 
     classNames = ['game-board-component'];
     classNameBindings = ['hasActions:_has-actions'];
     attributeBindings = ['style']
 
-    @computed('gameState.game.{categories.length,answerRows.length}')
     get style() {
-        let columns = this.get('gameState.game.categories.length');
-        let rows = this.get('gameState.game.answerRows.length') + 1;
+        const columns = this.board.categories.length;
+        const rows = this.board.prices.length + 1;
 
-        return `grid-template-columns: repeat(${columns}, 1fr); grid-template-rows: repeat(${rows}, 1fr);`;
+        return htmlSafe(`grid-template-columns: repeat(${columns}, 1fr); grid-template-rows: repeat(${rows}, 1fr);`);
     }
 
-    @action
-    selectCategory(category) {
-        if (this.hasActions) {
-            this.onSelectCategory(category);
+    @action selectCategory(category) {
+        if (this.args.hasActions) {
+            this.args.onSelectCategory(category);
         }
     }
 
-    @action
-    selectAnswer(answer) {
-        if (this.hasActions) {
-            this.onSelectAnswer(answer);
+    @action selectAnswer(answer) {
+        if (this.args.hasActions) {
+            this.args.onSelectAnswer(answer);
         }
     }
 

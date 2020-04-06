@@ -15,7 +15,6 @@ class Answer extends EmbeddedModelBase {
     }
 
     static createFromDisplay(display) {
-        console.log(display);
         return this.create({
             documentId: customUtils.uid(16),
             categoryId: display.category,

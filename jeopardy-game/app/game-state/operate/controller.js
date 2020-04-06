@@ -13,40 +13,35 @@ export default class extends Controller {
         }
     }
 
-    @action
-    selectCategory(category) {
+    @action selectCategory(category) {
         if (!this.model.displayedCategories.includes(category)) {
             this.model.displayedCategories.addObject(category);
             this.model.save();
         }
-        this.set('selectedItem', category);
+        this.selectedItem = category;
     }
 
-    @action
-    selectAnswer(answer) {
+    @action selectAnswer(answer) {
         if (!this.model.completedAnswers.includes(answer)) {
             this.model.set('activeAnswer', answer);
             this.model.save();
         }
-        this.set('selectedItem', answer);
+        this.selectedItem = answer;
     }
 
-    @action
-    finishAnswer(team, answer) {
+    @action finishAnswer(team, answer) {
         this.model.completedAnswers.addObject(answer);
         this.model.set('activeAnswer', null);
         team.set('points', team.points + answer.price);
         this.model.save();
     }
 
-    @action
-    removePoints(team, answer) {
+    @action removePoints(team, answer) {
         team.set('points', team.points - answer.price);
         this.model.save();
     }
 
-    @action
-    resetGame() {
+    @action resetGame() {
         this.model.set('displayedCategories', []);
         this.model.set('completedAnswers', []);
         this.model.get('teams').forEach((team) => {
@@ -55,20 +50,17 @@ export default class extends Controller {
         this.model.save();
     }
 
-    @action
-    removeCategory(category) {
+    @action removeCategory(category) {
         this.model.displayedCategories.removeObject(category);
         this.model.save();
     }
 
-    @action
-    unselectAnswer() {
+    @action unselectAnswer() {
         this.model.set('activeAnswer', null);
         this.model.save();
     }
 
-    @action
-    unfinishAnswer(answer) {
+    @action unfinishAnswer(answer) {
         this.model.completedAnswers.removeObject(answer);
         this.model.save();
     }
@@ -79,20 +71,17 @@ export default class extends Controller {
         this.model.save();
     }
 
-    @action
-    toggleIsThemeMusic() {
+    @action toggleIsThemeMusic() {
         this.model.set('isThemeMusic', this.model.isThemeMusic === false);
         this.model.save();
     }
 
-    @action
-    toggleIsThinking() {
+    @action toggleIsThinking() {
         this.model.set('isThinking', this.model.isThinking === false);
         this.model.save();
     }
 
-    @action
-    playIsTimeUp() {
+    @action playIsTimeUp() {
         this.model.set('isTimeUp', true);
         this.model.save().then(() => {
             later(() => {

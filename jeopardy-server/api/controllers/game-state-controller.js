@@ -1,77 +1,122 @@
 'use strict';
-var fs = require("fs");
-var path = require("path");
+// var fs = require("fs");
+// var path = require("path");
 
-module.exports = function(io) {
-    var controller = {};
-    const _io = io;
+const   GameState = require('../models/game-state'),
+        GameStateDisplay = require('../displayModels/game-state-display'),
+        GameController = require('./game-controller'),
+        connect = require('camo').connect,
+        uri = 'nedb://db';
 
-    controller.fetchGameState = function(req, res) {
-        var rootPath = path.join(__dirname, '../../');
-        var filePath = `${rootPath}game-states/game-state-${req.params.gameStateId}.json`;
-        console.log(filePath);
+class GameStateController {
 
-        fs.readFile(filePath, 'utf8', function (_, gameStateData) {
-            var result = {
-                gameState: JSON.parse(gameStateData)
-            };
+    async fetchGameState(req, res) {
+        const id = req.params.gameStateId;
 
-            var gameFilePath = `${rootPath}games/game-${result.gameState.game}.json`;
+        await connect(uri);
 
-            fs.readFile(gameFilePath, 'utf8', (_, gameData) => {
-                result.games = [JSON.parse(gameData)];
-                res.json(result);
-            });
-            
-        });
-    };
+        const gameState = await GameState.findOne({ _id: id });
+        const gameAggregate = await GameController.fetchGameAggregate(gameState.gameId);
 
-    controller.saveGameState = function(req, res) {
-        var rootPath = path.join(__dirname, '../../');
-        var filePath = `${rootPath}game-states/game-state-${req.params.gameStateId}.json`;
+        var result = {
+            gameState: new GameStateDisplay(gameState),
+            games: [gameAggregate.game],
+            boards: gameAggregate.boards,
+            categories: gameAggregate.categories
+        };
 
-        fs.writeFile(filePath, JSON.stringify(req.body.gameState), (err) => {
-
-            _io.sockets.emit('modelUpdated', req.body);
-            res.json(req.body);
-        });
-    };
-
-    controller.createGameState = function(req, res) {
-        var rootPath = path.join(__dirname, '../../');
-        var folderPath = `${rootPath}game-states/`;
-        console.log(folderPath);
-        fs.readdir(folderPath, (err, filenames) => {
-            let nextId = 1;
-            if (filenames.length) {
-                let gameStateIds = [];
-                filenames.forEach((filename) => {
-                    console.log(filename.split('-')[1]);
-                    gameStateIds.push(parseInt(filename.split('-')[2].split('.')[0]));
-                });
-
-                let maxId = Math.max(...gameStateIds);
-                nextId = maxId + 1;
-            }
-
-            var filePath = `${rootPath}game-states/game-state-${nextId}.json`;
-
-            var model = req.body.gameState;
-            model.id = nextId;
-
-            model.teams.forEach((t, index) => {
-                t.id = index + 1;
-            });
-
-            fs.writeFile(filePath, JSON.stringify(model), (err) => {
-                let response = {
-                    gameState: model
-                }
-                res.json(response);
-            });
-        });
-
+        res.json(result);
     }
 
-    return controller;
+    async saveGameState(req, res, io) {
+        const id = req.params.gameStateId;
+
+        await connect(uri);
+
+        const gameState = await GameState.findOne({ _id: id }); 
+        gameState.updateFromDisplay(req.body.gameState);
+
+        const savedGameState = await gameState.save();
+
+        const result = {
+            gameState: new GameStateDisplay(savedGameState)
+        };
+
+        io.sockets.emit('modelUpdated', req.body);
+        res.json(result);
+    };
+
+    async createGameState(req, res) {
+
+        await connect(uri);
+
+        const gameState = GameState.createFromDisplay(req.body.gameState);
+
+        let savedGameState = await gameState.save();
+
+        const result = {
+            gameState: new GameStateDisplay(savedGameState)
+        };
+
+        res.json(result);
+    }
 }
+
+module.exports = GameStateController;
+// function(io) {
+//     var controller = {};
+//     const _io = io;
+
+//     controller.fetchGameState = async function(req, res) {
+//         const id = req.params.gameStateId;
+
+//         await connect(uri);
+
+//         const gameState = await GameState.findOne({ _id: id });
+//         const gameAggregate = await GameController.fetchGameAggregate(gameState.gameId);
+
+//         var result = {
+//             gameState: new GameStateDisplay(gameState),
+//             games: [gameAggregate.game],
+//             boards: gameAggregate.boards,
+//             categories: gameAggregate.categories
+//         };
+
+//         res.json(result);
+//     };
+
+//     controller.saveGameState = async function(req, res) {
+//         const id = req.params.gameStateId;
+
+//         await connect(uri);
+
+//         const gameState = await GameState.findOne({ _id: id }); 
+//         gameState.updateFromDisplay(req.body.gameState);
+
+//         const savedGameState = await gameState.save();
+
+//         const result = {
+//             gameState: new GameStateDisplay(savedGameState);
+//         }
+
+//         _io.sockets.emit('modelUpdated', req.body);
+//         res.json(req.body);
+//     };
+
+//     controller.createGameState = async function(req, res) {
+
+//         await connect(uri);
+
+//         const gameState = GameState.createFromDisplay(req.body.game);
+
+//         let savedGameState = await gameState.save();
+
+//         const result = {
+//             gameState: new GameStateDisplay(savedGameState)
+//         };
+
+//         res.json(result);
+//     }
+
+//     return controller;
+// }

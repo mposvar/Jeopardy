@@ -10,7 +10,7 @@
 </div>
 
 <div style="margin-top: 2rem;">
-    <h1>Initial Board</h1>
+    <h1>Round 1 Board</h1>
     {{#let this.model.boards.firstObject as |initialBoard|}}
         <BoardBuilder 
             @board={{initialBoard}} 
@@ -31,14 +31,14 @@
             />
         {{/let}}
     {{else}}
-        <button class="button _primary" {{action (fn this.addBoard)}}>Add Double Jeopardy Board</button>
+        <button class="button _primary" {{action (fn this.addBoard)}}>Add Double Jeopardy Board (Optional)</button>
     {{/if}}
 </div>
 
 <div style="margin-top: 2rem;">
     {{#if this.model.finalJeopady}}
     {{else}}
-        <button class="button _primary" {{action (fn this.addFinalJeopardy)}}>Add Final Jeopardy Question</button>
+        <button class="button _primary" {{action (fn this.addFinalJeopardy)}}>Add Final Jeopardy Question (Optional)</button>
     {{/if}}
 </div>
 

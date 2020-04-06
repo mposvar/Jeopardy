@@ -1,24 +1,24 @@
 import DS from 'ember-data';
-const { Model } = DS;
+const { Model, belongsTo, hasMany, attr } = DS;
 
 export default class extends Model {
-    @DS.belongsTo('game') game;
+    @belongsTo('game') game;
 
-    @DS.hasMany('answer', { async: false })
+    @hasMany('answer', { async: false })
     completedAnswers;
 
-    @DS.belongsTo('answer', { async: false })
+    @belongsTo('answer', { async: false })
     activeAnswer;
 
-    @DS.hasMany('category', { async: false })
+    @hasMany('category', { async: false })
     displayedCategories;
 
-    @DS.hasMany('team', { async: false })
+    @hasMany('team', { async: false })
     teams;
 
-    @DS.attr('boolean') isScoreView;
+    @attr('boolean') isScoreView;
 
-    @DS.attr('boolean') isTimeUp;
-    @DS.attr('boolean') isThemeMusic;
-    @DS.attr('boolean') isThinking;
+    @attr('boolean') isTimeUp;
+    @attr('boolean') isThemeMusic;
+    @attr('boolean') isThinking;
 }

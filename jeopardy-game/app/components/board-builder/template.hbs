@@ -58,19 +58,11 @@
                                     <button class="button _primary" {{on "click" (fn this.saveAnswer answer)}}>Save Answer</button>
                                 </div>
                             {{else if answer}}
-                                <div class="answer-inner">
-                                    <div>
-                                        Answer - {{answer.answerText}}
-                                    </div>
-                                    <div>
-                                        Question - {{answer.questionText}}
-                                    </div>
-                                    <div>
-                                        <a href="#" {{on "click" (fn this.setEditingAnswer answer)}}>edit</a>
-                                    </div>
+                                <div class="answer-inner _hover" {{on "click" (fn this.setEditingAnswer answer)}}>
+                                    {{coalesce answer.answerText "(No answer yet)"}}
                                 </div>
                             {{else}}
-                                <div {{on "click" (fn @onAddAnswer category price)}}>
+                                <div class="_hover" {{on "click" (fn @onAddAnswer category price)}}>
                                     +<br>Add Answer
                                 </div>
                             {{/if}}

@@ -18,8 +18,8 @@
                 <GameBoard 
                     @gameState={{this.model}} 
                     @hasActions={{true}} 
-                    @onSelectCategory={{action "selectCategory"}}
-                    @onSelectAnswer={{action "selectAnswer"}}
+                    @onSelectCategory={{fn this.selectCategory}}
+                    @onSelectAnswer={{fn this.selectAnswer}}
                 />
             {{/if}}
         </div>
@@ -28,7 +28,7 @@
             <div class="_inner">
                 {{#if selectedItem.isAnswer}}
                     <div class="_centered-title">{{selectedItem.category.title}}</div>
-                    <div class="_centered-title">${{selectedItem.price}}</div>
+                    <div class="_centered-title">${{selectedItem.price.amount}}</div>
 
                     <div class="_solution">
                         <div><strong>Solution:</strong></div>

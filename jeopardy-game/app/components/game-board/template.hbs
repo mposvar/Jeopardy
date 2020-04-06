@@ -1,55 +1,57 @@
 
-{{#each this.game.categories as |category|}}
-  <div class="grid-square _header" {{action 'selectCategory' category}}>
-    {{if (contains category this.gameState.displayedCategories)
-      category.title 
-      'Jeopardy!'
-    }}
-  </div>
-{{/each}}
+<div class="game-board-component {{if hasAction "_has-actions"}}" style={{style}}>
+  {{#each this.board.categories as |category|}}
+    <div class="grid-square _header" {{on "click" (fn this.selectCategory category)}}>
+      {{if (contains category @gameState.displayedCategories)
+        category.title 
+        'Jeopardy!'
+      }}
+    </div>
+  {{/each}}
 
-{{#each this.game.answerRows as |answerRow|}}
+  {{#each this.board.prices as |price|}}
 
-  {{#each this.game.categories as |category|}}
-    {{#let (find-by "price" answerRow.price category.answers) as |answer|}}
-      <div class="grid-square _body" {{action 'selectAnswer' answer}}>
-        <div class="question {{if (eq this.gameState.activeAnswer answer) "_is-active"}}">
-          {{#if (eq this.gameState.activeAnswer answer)}}
-            {{#if answer.isImage}}
-              <img class="_image" src={{answer.imageFile}} />
-            {{else if answer.isAudio}}
-              {{#if (and (not hasActions) allowAudio)}}
-                <iframe src={{answer.audioFile}} allow="autoplay" style="display:none" id="iframeAudio3">
-                </iframe> 
+    {{#each this.board.categories as |category|}}
+      {{#let (find-by "price.id" price.id category.answers) as |answer|}}
+        <div class="grid-square _body" {{on "click" (fn this.selectAnswer answer)}}>
+          <div class="question {{if (eq @gameState.activeAnswer answer) "_is-active"}}">
+            {{#if (eq @gameState.activeAnswer answer)}}
+              {{#if answer.isImage}}
+                <img class="_image" src={{answer.imageFile}} alt="image">
+              {{else if answer.isAudio}}
+                {{#if (and (not hasActions) @allowAudio)}}
+                  <iframe src={{answer.audioFile}} allow="autoplay" style="display:none" id="iframeAudio3">
+                  </iframe> 
+                {{/if}}
+                <div class="answer-text">{{answer.answerText}}</div>
+              {{else}}
+                <div class="answer-text">{{answer.answerText}}</div>
               {{/if}}
-              <div class="answer-text">{{answer.answerText}}</div>
-            {{else}}
-              <div class="answer-text">{{answer.answerText}}</div>
             {{/if}}
+          </div>
+
+          {{#if (contains answer @gameState.completedAnswers)}}
+            <strong>&nbsp;</strong>
+          {{else}}
+            <strong>${{price.amount}}</strong>
           {{/if}}
         </div>
-
-        {{#if (contains answer this.gameState.completedAnswers)}}
-          <strong>&nbsp;</strong>
-        {{else}}
-          <strong>${{answerRow.price}}</strong>
-        {{/if}}
-      </div>
-    {{/let}}
+      {{/let}}
+    {{/each}}
   {{/each}}
-{{/each}}
 
-{{#if (and (not hasActions) allowAudio)}}
-  {{#if gameState.isTimeUp}}
-      <iframe src="/content/TimesUp.mp3" allow="autoplay" style="display:none" id="iframeAudio">
-      </iframe> 
-  {{else if gameState.isThinking}}
-      <iframe src="/content/ThinkMusic.mp3" allow="autoplay" style="display:none" id="iframeAudio1">
-      </iframe> 
-  {{else if gameState.isThemeMusic}}
-      <iframe src="/content/ThemeSong.mp3" allow="autoplay" style="display:none" id="iframeAudio2">
-      </iframe> 
+  {{#if (and (not @hasActions) @allowAudio)}}
+    {{#if @gameState.isTimeUp}}
+        <iframe src="/content/TimesUp.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+        </iframe> 
+    {{else if @gameState.isThinking}}
+        <iframe src="/content/ThinkMusic.mp3" allow="autoplay" style="display:none" id="iframeAudio1">
+        </iframe> 
+    {{else if @gameState.isThemeMusic}}
+        <iframe src="/content/ThemeSong.mp3" allow="autoplay" style="display:none" id="iframeAudio2">
+        </iframe> 
+    {{/if}}
   {{/if}}
-{{/if}}
+</div>
 
 

@@ -11,31 +11,12 @@ const   Game = require('../models/game'),
 
 exports.fetchGame = async function(req, res) {
     const id = req.params.gameId;
-
+    
     await connect(uri);
 
-    const gameQuery = Game.findOne({ _id: id });
-    const boardsQuery = Board.find({ gameId: id });
+    var result = await fetchGameAggregate(id);
 
-    const [game, boards] = await Promise.all([gameQuery, boardsQuery]);
-
-    const result = { 
-        game: new GameDisplay(game),
-        boards: boards.map((board) => new BoardDisplay(board))
-    };
-
-    let boardIds = boards.map(b => b._id);
-    
-    if (!boardIds.length) {
-        res.json(result);
-    }
-    else {
-        
-        const categories = await Category.find({ boardId: { $in: boardIds }});
-        result.categories = categories.map((c) => new CategoryDisplay(c));
-
-        res.json(result);
-    }
+    res.json(result);
 };
 
 exports.fetchGames = async function(_, res) {
@@ -68,7 +49,7 @@ exports.createGame = async function(req, res) {
     const result = {
         game: new GameDisplay(savedGame),
         boards: [new BoardDisplay(savedBoard)]
-    }
+    };
 
     res.json(result);
 };
@@ -88,4 +69,30 @@ exports.saveGame = async function(req, res) {
 
     res.json(result);
 };
+
+const fetchGameAggregate = async function(gameId) {
+
+    const gameQuery = Game.findOne({ _id: gameId });
+    const boardsQuery = Board.find({ gameId: gameId });
+
+    const [game, boards] = await Promise.all([gameQuery, boardsQuery]);
+
+    const aggregate = { 
+        game: new GameDisplay(game),
+        boards: boards.map((board) => new BoardDisplay(board))
+    };
+
+    let boardIds = boards.map(b => b._id);
+    
+    if (!boardIds.length) {
+        return aggregate;
+    }
+
+    const categories = await Category.find({ boardId: { $in: boardIds }});
+    aggregate.categories = categories.map((c) => new CategoryDisplay(c));
+
+    return aggregate;
+}
+
+exports.fetchGameAggregate = fetchGameAggregate;
 

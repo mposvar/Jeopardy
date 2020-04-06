@@ -77,5 +77,11 @@ export default class BoardBuilderComponent extends Component {
     @action setQuestionText(answer, event) {
         set(answer, 'questionText', event.target.value);
     }
+
+    @action addAnswer() {
+        this.args.onAddAnswer(...arguments).then((answer) => {
+            this.editingAnswer = answer;
+        });
+    }
     
 }

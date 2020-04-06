@@ -23,8 +23,8 @@ priceRoute(app);
 const answerRoute = require('./api/routes/answer-route');
 answerRoute(app);
 
-// const gameStateRoute = require('./api/routes/game-state-route');
-// gameStateRoute(app, io);
+const gameStateRoute = require('./api/routes/game-state-route');
+gameStateRoute(app, io);
 
 io.on('connection', function(socket){
   console.log('a user connected');
